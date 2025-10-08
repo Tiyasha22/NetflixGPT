@@ -1,5 +1,4 @@
 import Header from "./Header";
-import { useNavigate } from "react-router-dom";
 import { useState, useRef } from "react";
 import { checkValidData } from "../utils/validation.js";
 import {
@@ -10,8 +9,8 @@ import {
 import { auth } from "../utils/firebase.js";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice.js";
+import { PROFILE_IMG } from "../utils/constant.js";
 const Login = () => {
-  const navigate = useNavigate();
   const [isSignIn, setIsSignIn] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
   const toggleSignInForm = () => {
@@ -27,6 +26,8 @@ const Login = () => {
     const message = checkValidData(email.current.value, password.current.value);
     setErrorMessage(message);
     if (message) return;
+    
+    console.log("Attempting authentication with:", email.current.value);
     if (!isSignIn) {
       //signup
       createUserWithEmailAndPassword(
@@ -39,13 +40,11 @@ const Login = () => {
           const user = userCredential.user;
           updateProfile(user, {
             displayName: name.current.value,
-            photoURL:
-              "https://occ-0-3752-3646.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABXFZnMq0aIUsTd1J4Zy10TaPi4Ulx3VRyT_ZN1p9XYcE1KAon0Ndskx0e2tTr9hajESYNDSnSrbDexSXvmYSBiI8gVqOF9SORA.png?r=b39",
+            photoURL: PROFILE_IMG,
           })
             .then(() => {
               const { uid, email, displayName, photoURL } = auth.currentUser;
               dispatch(addUser({ uid, email, displayName, photoURL }));
-              navigate("/browse");
             })
             .catch((error) => {
               setErrorMessage(error.message);
@@ -54,6 +53,7 @@ const Login = () => {
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
+          console.error("Sign up error:", errorCode, errorMessage);
           setErrorMessage(errorCode + "-" + errorMessage);
         });
     } else {
@@ -65,12 +65,11 @@ const Login = () => {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          console.log(user);
-          navigate("/browse");
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
+          console.error("Sign up error:", errorCode, errorMessage);
           setErrorMessage(errorCode + "-" + errorMessage);
         });
     }
