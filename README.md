@@ -25,6 +25,12 @@
 -fetch data for trailer video
 -update storw with trailer video data
 -embeded youtube video and make it autoplay on mute
+-built secondary components : movie list and movie card
+-usePopularMovies custom hook
+-add a search link on header that redirects user to GPT search page
+-built GPT search Page
+-built GPT Search Bar
+-integrate GPT API
 
 # Features
 
@@ -36,3 +42,4 @@
 -movie title and desc
 -play button
 -netflix gpt
+-multilingual application

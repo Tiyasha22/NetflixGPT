@@ -9,7 +9,7 @@ import {
 import { auth } from "../utils/firebase.js";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice.js";
-import { PROFILE_IMG } from "../utils/constant.js";
+import { PROFILE_IMG, BG_IMG } from "../utils/constant.js";
 const Login = () => {
   const [isSignIn, setIsSignIn] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -26,7 +26,7 @@ const Login = () => {
     const message = checkValidData(email.current.value, password.current.value);
     setErrorMessage(message);
     if (message) return;
-    
+
     console.log("Attempting authentication with:", email.current.value);
     if (!isSignIn) {
       //signup
@@ -78,10 +78,7 @@ const Login = () => {
     <div>
       <Header />
       <div className="absolute">
-        <img
-          src="https://assets.nflxext.com/ffe/siteui/vlv3/258d0f77-2241-4282-b613-8354a7675d1a/web/IN-en-20250721-TRIFECTA-perspective_cadc8408-df6e-4313-a05d-daa9dcac139f_large.jpg"
-          alt="background-image"
-        />
+        <img src={BG_IMG} alt="background-image" />
       </div>
       <form className="p-12  bg-black bg-opacity-80 absolute w-3/12 my-32 mx-auto right-0 left-0  text-white">
         <h1
